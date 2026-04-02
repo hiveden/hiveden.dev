@@ -1,0 +1,30 @@
+# hiveden.dev
+
+> Build in public, ship in code.
+
+## About
+
+hiveden.dev is a technical project documentation site by hiveden (GitHub: https://github.com/hiveden). Based in Shanghai. Focused on AI Agent engineering, automation, and open source tooling.
+
+## Projects
+
+### tts-agent-harness
+- Repo: https://github.com/hiveden/tts-agent-harness
+- Description: Multi-agent TTS production harness. Three-stage pipeline: Fish TTS for synthesis, WhisperX for quality validation, Claude for auto-fix. 87% of chunks pass automatically; failures enter a repair loop that converges within 3 rounds.
+- Tech: Node.js, Fish TTS, WhisperX, Claude
+- Docs: https://hiveden.dev/projects/tts-agent-harness
+
+### harness-demo
+- Repo: https://github.com/hiveden/harness-demo
+- Description: Harness Engineering Demo — experience AI Agent self-improving loop in 5 minutes.
+- Tech: Shell
+
+## Links
+
+- Website: https://hiveden.dev
+- GitHub: https://github.com/hiveden
+- Bilibili: https://space.bilibili.com/386785020
+
+## Contact
+
+For collaboration or questions, open an issue on the relevant GitHub repository.
