@@ -16,3 +16,29 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Grid background */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(168, 85, 247, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Typing cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Glow */
+.glow-accent {
+  background: radial-gradient(
+    600px circle at var(--glow-x, 50%) var(--glow-y, 0%),
+    rgba(168, 85, 247, 0.08),
+    transparent 60%
+  );
+}

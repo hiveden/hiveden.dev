@@ -1,89 +1,121 @@
+import { PipelineDiagram } from "./pipeline-diagram";
+
 const PROJECTS = [
   {
     name: "tts-agent-harness",
     tagline: "三段式 TTS 自动化流水线",
     description:
-      "Fish TTS + WhisperX + Claude，87% chunk 自动通过，修复循环 3 轮收敛。",
+      "Fish TTS + WhisperX + Claude 组成的多 Agent 生产线。87% chunk 自动通过质量校验，未通过的进入修复循环，3 轮内收敛。",
     github: "https://github.com/hiveden/tts-agent-harness",
     docs: "/projects/tts-agent-harness",
     video: "https://space.bilibili.com/386785020",
     tech: ["Node.js", "Fish TTS", "WhisperX", "Claude"],
     stars: 21,
+    date: "2026.03",
+    hasDiagram: true,
   },
 ];
 
 export function Projects() {
   return (
     <section className="mx-auto max-w-5xl px-6 pb-20">
-      <h2 className="mb-6 text-lg font-semibold">
+      <h2 className="mb-8 text-lg font-semibold">
         <span className="text-accent font-mono">#</span> Projects
       </h2>
-      <div className="grid gap-4">
-        {PROJECTS.map((project) => (
-          <div
-            key={project.name}
-            className="rounded-lg border border-border bg-surface p-6"
-          >
-            <div className="flex items-start justify-between gap-4 mb-3">
-              <h3 className="font-mono font-semibold text-lg">
-                {project.name}
-              </h3>
-              <span className="shrink-0 text-xs text-subtle font-mono">
-                {project.stars} stars
-              </span>
-            </div>
-            <p className="text-sm text-foreground mb-1">{project.tagline}</p>
-            <p className="text-sm text-muted mb-4 leading-relaxed">
-              {project.description}
-            </p>
+      <div className="space-y-6">
+        {/* Timeline */}
+        <div className="relative">
+          {PROJECTS.map((project) => (
+            <div key={project.name} className="relative pl-8">
+              {/* Timeline dot + line */}
+              <div className="absolute left-0 top-0 bottom-0 flex flex-col items-center">
+                <div className="w-3 h-3 rounded-full border-2 border-accent bg-background shrink-0 mt-2" />
+                <div className="w-px flex-1 bg-border" />
+              </div>
 
-            {/* Links */}
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              {project.docs && (
-                <a
-                  href={project.docs}
-                  className="rounded border border-accent/30 bg-accent/5 px-3 py-1 text-xs text-accent hover:bg-accent/10 transition-colors"
-                >
-                  文档
-                </a>
-              )}
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded border border-border px-3 py-1 text-xs text-muted hover:text-foreground hover:border-foreground/20 transition-colors"
-              >
-                GitHub
-              </a>
-              {project.video && (
-                <a
-                  href={project.video}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded border border-border px-3 py-1 text-xs text-muted hover:text-foreground hover:border-foreground/20 transition-colors"
-                >
-                  视频讲解
-                </a>
-              )}
-            </div>
+              {/* Date */}
+              <div className="text-xs text-subtle font-mono mb-2">
+                {project.date}
+              </div>
 
-            {/* Tech tags */}
-            <div className="flex flex-wrap gap-2">
-              {project.tech.map((t) => (
-                <span
-                  key={t}
-                  className="rounded bg-border/50 px-2 py-0.5 text-xs text-subtle font-mono"
-                >
-                  {t}
-                </span>
-              ))}
+              {/* Card */}
+              <div className="group rounded-lg border border-border bg-surface hover:border-accent/30 transition-colors overflow-hidden">
+                {/* Diagram area */}
+                {project.hasDiagram && (
+                  <div className="border-b border-border bg-background/50 px-5 pt-4 pb-3">
+                    <PipelineDiagram />
+                  </div>
+                )}
+
+                {/* Content */}
+                <div className="p-6">
+                  <div className="flex items-start justify-between gap-4 mb-3">
+                    <h3 className="font-mono font-semibold text-lg group-hover:text-accent transition-colors">
+                      {project.name}
+                    </h3>
+                    <span className="shrink-0 text-xs text-subtle font-mono">
+                      {project.stars} stars
+                    </span>
+                  </div>
+                  <p className="text-sm text-foreground mb-1">{project.tagline}</p>
+                  <p className="text-sm text-muted mb-5 leading-relaxed">
+                    {project.description}
+                  </p>
+
+                  {/* Links */}
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    {project.docs && (
+                      <a
+                        href={project.docs}
+                        className="rounded border border-accent/30 bg-accent/5 px-3 py-1.5 text-xs text-accent hover:bg-accent/10 transition-colors"
+                      >
+                        文档
+                      </a>
+                    )}
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded border border-border px-3 py-1.5 text-xs text-muted hover:text-foreground hover:border-foreground/20 transition-colors"
+                    >
+                      GitHub
+                    </a>
+                    {project.video && (
+                      <a
+                        href={project.video}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded border border-border px-3 py-1.5 text-xs text-muted hover:text-foreground hover:border-foreground/20 transition-colors"
+                      >
+                        视频讲解
+                      </a>
+                    )}
+                  </div>
+
+                  {/* Tech tags */}
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded bg-border/50 px-2 py-0.5 text-xs text-subtle font-mono"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
+          ))}
+
+          {/* Timeline: next */}
+          <div className="relative pl-8 pt-6">
+            <div className="absolute left-0 top-0 flex flex-col items-center">
+              <div className="w-3 h-3 rounded-full border-2 border-border bg-background shrink-0 mt-2" />
+            </div>
+            <div className="text-xs text-subtle font-mono mb-1">2026.04</div>
+            <div className="text-sm text-subtle">building...</div>
           </div>
-        ))}
-
-        {/* Coming soon */}
-        <div className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-subtle">
-          更多项目陆续上线
         </div>
       </div>
     </section>
