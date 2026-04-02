@@ -4,10 +4,15 @@
   --color-background: #09090B;
   --color-foreground: #FAFAFA;
   --color-accent: #A855F7;
-  --color-muted: #71717A;
+  --color-muted: #A1A1AA;
+  --color-subtle: #71717A;
   --color-surface: #18181B;
   --color-border: #27272A;
 
   --font-mono: "Geist Mono", ui-monospace, monospace;
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }

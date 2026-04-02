@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "hiveden.dev",
-  description: "A hive for builders.",
+  title: "hiveden.dev — 工具人研究所",
+  description: "用 AI 和自动化帮自己偷懒。折腾记录 · 工具测评 · 效率实验。",
 };
 
 export default function RootLayout({
@@ -23,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
-      <body className="bg-background text-foreground font-mono antialiased">
+    <html lang="zh-CN" className={`${geist.variable} ${geistMono.variable}`}>
+      <body className="bg-background text-foreground font-sans antialiased">
         {children}
       </body>
     </html>
