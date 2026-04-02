@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "hiveden.dev — 工具人研究所",
-  description: "用 AI 和自动化帮自己偷懒。折腾记录 · 工具测评 · 效率实验。",
+  title: "hiveden.dev",
+  description: "开源项目 · 技术文档 · 工程实践记录",
 };
 
 export default function RootLayout({

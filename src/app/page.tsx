@@ -1,7 +1,5 @@
 import { Header } from "@/components/header";
-import { Hero } from "@/components/hero";
 import { Projects } from "@/components/projects";
-import { Channel } from "@/components/channel";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -9,9 +7,12 @@ export default function Home() {
     <>
       <Header />
       <main>
-        <Hero />
+        <section className="mx-auto max-w-5xl px-6 pt-20 pb-12">
+          <p className="text-muted">
+            开源项目 · 技术文档 · 工程实践记录
+          </p>
+        </section>
         <Projects />
-        <Channel />
       </main>
       <Footer />
     </>
