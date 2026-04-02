@@ -1,30 +1,26 @@
 # hiveden.dev
 
-> Build in public, ship in code.
+你好，这里是 hiveden 的项目站。
 
-## About
+我在上海，做 AI Agent 工程和自动化。写代码、造工具、公开记录过程。
+这个站是我所有项目的入口——代码在 GitHub，文档在这里，视频讲解在 B站。
 
-hiveden.dev is a technical project documentation site by hiveden (GitHub: https://github.com/hiveden). Based in Shanghai. Focused on AI Agent engineering, automation, and open source tooling.
+## 我在做的项目
 
-## Projects
+tts-agent-harness — 多 Agent TTS 生产线
+三段式流水线：Fish TTS 合成语音，WhisperX 校验质量，Claude 自动修复。
+87% 的音频块一次通过，剩下的进修复循环，3 轮内收敛。
+代码：https://github.com/hiveden/tts-agent-harness
+文档：https://hiveden.dev/projects/tts-agent-harness
 
-### tts-agent-harness
-- Repo: https://github.com/hiveden/tts-agent-harness
-- Description: Multi-agent TTS production harness. Three-stage pipeline: Fish TTS for synthesis, WhisperX for quality validation, Claude for auto-fix. 87% of chunks pass automatically; failures enter a repair loop that converges within 3 rounds.
-- Tech: Node.js, Fish TTS, WhisperX, Claude
-- Docs: https://hiveden.dev/projects/tts-agent-harness
+harness-demo — Harness Engineering 演示
+5 分钟体验 AI Agent 自循环改进机制。
+代码：https://github.com/hiveden/harness-demo
 
-### harness-demo
-- Repo: https://github.com/hiveden/harness-demo
-- Description: Harness Engineering Demo — experience AI Agent self-improving loop in 5 minutes.
-- Tech: Shell
+## 在哪找到我
 
-## Links
+网站：https://hiveden.dev
+GitHub：https://github.com/hiveden
+B站：https://space.bilibili.com/386785020
 
-- Website: https://hiveden.dev
-- GitHub: https://github.com/hiveden
-- Bilibili: https://space.bilibili.com/386785020
-
-## Contact
-
-For collaboration or questions, open an issue on the relevant GitHub repository.
+有问题可以在对应项目的 GitHub Issues 里留言。
