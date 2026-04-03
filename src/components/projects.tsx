@@ -1,6 +1,30 @@
 import { PipelineDiagram } from "./pipeline-diagram";
 
-const PROJECTS = [
+type Project = {
+  name: string;
+  tagline: string;
+  description: string;
+  date: string;
+  tech: string[];
+  github?: string;
+  docs?: string;
+  video?: string;
+  download?: string;
+  stars?: number;
+  hasDiagram?: boolean;
+};
+
+const PROJECTS: Project[] = [
+  {
+    name: "local-model-deployment",
+    tagline: "Ollama on Apple Silicon 完整部署指南",
+    description:
+      "从安装到性能优化、模型选型（MoE vs Dense）、Docker 集成、踩坑记录。含 ToolRef RAG 引擎实战案例和基准测试数据。",
+    docs: "/docs/local-model-deployment",
+    download: "/downloads/local-model-deployment.md",
+    tech: ["Ollama", "Apple Silicon", "qwen3", "Docker"],
+    date: "2026.04",
+  },
   {
     name: "tts-agent-harness",
     tagline: "三段式 TTS 自动化流水线",
@@ -26,7 +50,7 @@ export function Projects() {
         {/* Timeline */}
         <div className="relative">
           {PROJECTS.map((project) => (
-            <div key={project.name} className="relative pl-8">
+            <div key={project.tagline} className="relative pl-8">
               {/* Timeline dot + line */}
               <div className="absolute left-0 top-0 bottom-0 flex flex-col items-center">
                 <div className="w-3 h-3 rounded-full border-2 border-accent bg-background shrink-0 mt-2" />
@@ -51,11 +75,19 @@ export function Projects() {
                 <div className="p-6">
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <h3 className="font-mono font-semibold text-lg group-hover:text-accent transition-colors">
-                      {project.name}
+                      {project.docs ? (
+                        <a href={project.docs} className="hover:underline">
+                          {project.tagline}
+                        </a>
+                      ) : (
+                        project.name
+                      )}
                     </h3>
-                    <span className="shrink-0 text-xs text-subtle font-mono">
-                      {project.stars} stars
-                    </span>
+                    {project.stars != null && (
+                      <span className="shrink-0 text-xs text-subtle font-mono">
+                        {project.stars} stars
+                      </span>
+                    )}
                   </div>
                   <p className="text-sm text-foreground mb-1">{project.tagline}</p>
                   <p className="text-sm text-muted mb-5 leading-relaxed">
@@ -72,14 +104,16 @@ export function Projects() {
                         文档
                       </a>
                     )}
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded border border-border px-3 py-1.5 text-xs text-muted hover:text-foreground hover:border-foreground/20 transition-colors"
-                    >
-                      GitHub
-                    </a>
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded border border-border px-3 py-1.5 text-xs text-muted hover:text-foreground hover:border-foreground/20 transition-colors"
+                      >
+                        GitHub
+                      </a>
+                    )}
                     {project.video && (
                       <a
                         href={project.video}
@@ -88,6 +122,15 @@ export function Projects() {
                         className="rounded border border-border px-3 py-1.5 text-xs text-muted hover:text-foreground hover:border-foreground/20 transition-colors"
                       >
                         视频讲解
+                      </a>
+                    )}
+                    {project.download && (
+                      <a
+                        href={project.download}
+                        download
+                        className="rounded border border-border px-3 py-1.5 text-xs text-muted hover:text-foreground hover:border-foreground/20 transition-colors"
+                      >
+                        下载 .md
                       </a>
                     )}
                   </div>
@@ -113,7 +156,7 @@ export function Projects() {
             <div className="absolute left-0 top-0 flex flex-col items-center">
               <div className="w-3 h-3 rounded-full border-2 border-border bg-background shrink-0 mt-2" />
             </div>
-            <div className="text-xs text-subtle font-mono mb-1">2026.04</div>
+            <div className="text-xs text-subtle font-mono mb-1">2026.05</div>
             <div className="text-sm text-subtle">building...</div>
           </div>
         </div>

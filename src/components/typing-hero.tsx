@@ -35,7 +35,19 @@ export function TypingHero() {
         </h1>
 
         {/* Terminal mini */}
-        <div className="mt-8 rounded-lg border border-border bg-surface/60 backdrop-blur-sm p-5 max-w-lg font-mono text-sm">
+        <div className="mt-8 rounded-lg border border-border bg-surface/60 backdrop-blur-sm max-w-lg font-mono text-sm overflow-hidden">
+          {/* Title bar */}
+          <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border bg-surface/80">
+            <div className="flex gap-1.5">
+              <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+              <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
+              <span className="w-3 h-3 rounded-full bg-[#28c840]" />
+            </div>
+            <span className="flex-1 text-center text-xs text-subtle">~/projects</span>
+          </div>
+
+          {/* Terminal body */}
+          <div className="p-5 min-h-[10rem]">
           {LINES.slice(0, visibleLines).map((line, i) => (
             <div key={i} className="leading-relaxed">
               {line.prompt !== undefined ? (
@@ -54,6 +66,7 @@ export function TypingHero() {
               )}
             </div>
           ))}
+          </div>
         </div>
 
         <p className="mt-6 text-subtle text-sm">

@@ -24,6 +24,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN" className={`${geist.variable} ${geistMono.variable}`}>
+      <head>
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly site description" />
+      </head>
       <body className="bg-background text-foreground font-sans antialiased">
         {children}
       </body>
