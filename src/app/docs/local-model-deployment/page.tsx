@@ -1,11 +1,9 @@
-import fs from "fs";
-import path from "path";
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-export const dynamic = "force-static";
+import content from "@/content/docs/local-model-deployment.md";
 
 export const metadata = {
   title: "Ollama on Apple Silicon 完整部署指南 | hiveden.dev",
@@ -14,12 +12,6 @@ export const metadata = {
 };
 
 export default function LocalModelDeploymentPage() {
-  const filePath = path.join(
-    process.cwd(),
-    "src/content/docs/local-model-deployment.md"
-  );
-  const content = fs.readFileSync(filePath, "utf-8");
-
   return (
     <div className="bg-grid min-h-dvh">
       <Header />
