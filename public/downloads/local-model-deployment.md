@@ -33,10 +33,12 @@
 | API 兼容 | OpenAI-compatible `/v1/` 端点 | OpenAI-compatible | 需自己包 API |
 | Docker 集成 | `host.docker.internal:11434` 直连 | 同上（端口 1234） | 需额外封装 |
 | 模型管理 | `ollama pull/list/rm`，CLI 完整 | GUI 管理 | 手动下载 |
-| Apple Silicon 优化 | Metal GPU 加速 + Flash Attention | Metal GPU | MLX 原生框架 |
+| Apple Silicon 优化 | **MLX 内置**（0.19.0 起）+ Flash Attention | Metal GPU | MLX 原生框架 |
 | 生态成熟度 | ★★★★★ | ★★★★ | ★★★ |
 
 **结论**: Ollama 在服务化、CLI 管理、Docker 集成三方面完胜，适合作为开发阶段的本地 LLM 后端。
+
+> **⚠️ Ollama 0.19.0 MLX 加速说明**: 0.19.0 将底层推理引擎切换至 Apple MLX 框架（preview），但目前**仅对 `qwen3.5:35b-a3b` 模型启用 MLX 加速路径**，其他模型仍走原有 llama.cpp 后端。需要 32GB 以上统一内存。后续版本将逐步扩展支持模型范围。
 
 ---
 
@@ -529,11 +531,22 @@ brew services start ollama
 - **劣势**: 无 CLI 管理，无 launchd 服务化，端口默认 1234（需配置）
 - **适合**: 个人实验、可视化对比模型
 
-### MLX (Apple 原生框架)
+### MLX (Apple 原生框架 / mlx_lm)
 
 - **优势**: Apple Silicon 最底层优化，理论性能上限最高
-- **劣势**: 生态不成熟，无服务化，模型格式不通用（.safetensors + MLX config）
-- **适合**: 研究、需要极致性能的特定场景
+- **劣势**: 无内置 HTTP 服务，模型格式不通用（.safetensors + MLX config），需自己封装 API
+- **适合**: 研究实验、需要裸框架控制推理细节的场景
+- **现状**: Ollama 0.19.0 已将 MLX 内置为推理后端（Apple Silicon），`mlx_lm` 更适合作为研究框架，开发者工具建议直接用 Ollama
+
+### oMLX（编码 Agent 专用推理服务器）
+
+- **项目**: [github.com/jundot/omlx](https://github.com/jundot/omlx)，macOS 原生，基于 MLX 框架
+- **核心特性**: **Paged SSD KV Cache** — 将 KV cache 持久化到热内存层和冷 SSD 层，即使上下文中途变化也保持缓存可跨请求复用
+- **解决的痛点**: 编码 Agent（Claude Code、OpenClaw、Cursor）多轮对话时前缀不断变化，标准 MLX 服务器每次丢弃 KV cache 重新计算，30-90s TTFT；oMLX 可降至 **1-3s**
+- **其他特性**: Continuous Batching、OpenAI + Anthropic 双兼容 API、多模型同时加载、MCP 支持、音频模型（STT/TTS）、菜单栏 dmg 管理
+- **vs Ollama**: oMLX 针对长对话 Agent 场景 TTFT 更优；Ollama 服务化更成熟、Docker 集成更简单、模型覆盖更广
+- **我们为什么暂不换**: ToolRef 主要是单次精准查询（非长对话），oMLX 的 KV cache 优势在我们当前场景收益有限；oMLX 项目较新，生态待成熟。加入 Conversation Memory 后值得重新评估
+- **适合**: 重度使用本地编码 Agent、多轮长对话场景、对 TTFT 敏感的用户
 
 ### vLLM
 
@@ -543,7 +556,7 @@ brew services start ollama
 
 ### 我们的选择
 
-开发阶段用 **Ollama**（稳定 + 服务化 + Docker 友好），生产部署验证用 **vLLM on 云 GPU**。MLX 持续关注但暂不投入。
+开发阶段用 **Ollama**（稳定 + 服务化 + Docker 友好），生产部署验证用 **vLLM on 云 GPU**。oMLX 值得关注，Conversation Memory 上线后多轮场景增多时重新评估。
 
 ---
 
