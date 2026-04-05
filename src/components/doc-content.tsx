@@ -2,7 +2,7 @@
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DocSidebar } from "./doc-sidebar";
 
 interface TocItem {
@@ -221,7 +221,7 @@ function HeadingRenderer({
             .join("")
         : "";
   const id = generateId(text);
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+  const Tag = `h${level}` as keyof React.JSX.IntrinsicElements;
   return <Tag id={id}>{children}</Tag>;
 }
 
