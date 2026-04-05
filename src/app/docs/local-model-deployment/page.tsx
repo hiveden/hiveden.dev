@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
+import { Comments } from "@/components/comments";
 
 import content from "@/content/docs/local-model-deployment.md";
 
@@ -15,7 +16,7 @@ export default function LocalModelDeploymentPage() {
   return (
     <div className="bg-grid min-h-dvh">
       <Header />
-      <main className="mx-auto max-w-4xl px-6 py-12">
+      <main className="mx-auto max-w-6xl px-6 py-12">
         <nav className="mb-8 text-sm text-muted font-mono">
           <Link href="/" className="hover:text-foreground transition-colors">
             首页
@@ -24,6 +25,7 @@ export default function LocalModelDeploymentPage() {
           <span className="text-foreground">Ollama on Apple Silicon 完整部署指南</span>
         </nav>
         <DocContent content={content} />
+        <Comments />
       </main>
       <Footer />
     </div>
