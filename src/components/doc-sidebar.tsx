@@ -82,7 +82,7 @@ export function DocSidebar({ title, description }: DocSidebarProps) {
         iframe.addEventListener("load", () => {
           setGiscusLoaded(true);
           clearTimeout(timeout);
-        });
+        }, { once: true });
         observer.disconnect();
       }
     });
@@ -109,7 +109,7 @@ export function DocSidebar({ title, description }: DocSidebarProps) {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-[57px] right-0 z-40 h-[calc(100%-57px)] w-80 bg-background border-l border-border transition-transform duration-300 ease-in-out ${
+        className={`fixed top-[57px] right-0 z-40 h-[calc(100%-57px)] w-full sm:w-80 bg-background border-l border-border transition-transform duration-300 ease-in-out ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
