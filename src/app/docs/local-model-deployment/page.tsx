@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -6,7 +7,7 @@ import { Comments } from "@/components/comments";
 
 import content from "@/content/docs/local-model-deployment.md";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Ollama on Apple Silicon 完整部署指南 | hiveden.dev",
   description:
     "Ollama 在 Apple Silicon Mac 上的完整部署指南：安装、性能优化、模型选型、Docker 集成、踩坑记录。",
