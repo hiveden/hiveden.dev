@@ -95,9 +95,9 @@ export async function Projects() {
                   )}
 
                   {/* Content */}
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     <div className="flex items-start justify-between gap-4 mb-3">
-                      <h3 className="font-mono font-semibold text-lg group-hover:text-accent transition-colors">
+                      <h3 className="font-mono font-semibold text-base lg:text-lg group-hover:text-accent transition-colors">
                         {(project.docs || project.github) ? (
                           <a
                             href={project.docs || project.github}

@@ -35,7 +35,7 @@ export function TypingHero() {
         </h1>
 
         {/* Terminal mini */}
-        <div className="mt-8 rounded-lg border border-border bg-surface/60 backdrop-blur-sm max-w-lg font-mono text-sm overflow-hidden">
+        <div className="mt-8 rounded-lg border border-border bg-surface/60 backdrop-blur-sm w-full max-w-lg font-mono text-xs sm:text-sm overflow-hidden">
           {/* Title bar */}
           <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border bg-surface/80">
             <div className="flex gap-1.5">

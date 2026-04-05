@@ -12,7 +12,7 @@ export function PipelineDiagram() {
       {steps.map((step, i) => (
         <div key={step.label} className="flex items-center shrink-0">
           <div className="flex flex-col items-center gap-1">
-            <div className="rounded border border-accent/20 bg-surface px-3 py-2 text-center min-w-[72px]">
+            <div className="rounded border border-accent/20 bg-surface px-3 py-2 text-center min-w-[60px] sm:min-w-[72px]">
               <div className="text-xs font-mono text-foreground">{step.label}</div>
               <div className="text-[10px] text-subtle">{step.sub}</div>
             </div>
