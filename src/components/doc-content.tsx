@@ -120,7 +120,7 @@ function TableOfContents({ items }: { items: TocItem[] }) {
 
   return (
     <nav
-      className={`hidden xl:block shrink-0 transition-all duration-300 ease-in-out ${
+      className={`hidden lg:block shrink-0 transition-all duration-300 ease-in-out ${
         collapsed ? "w-8" : "w-56"
       }`}
     >
@@ -247,9 +247,11 @@ function extractDescription(markdown: string): string {
 
 export function DocContent({
   content,
+  header,
   children,
 }: {
   content: string;
+  header?: React.ReactNode;
   children?: React.ReactNode;
 }) {
   const tocItems = extractToc(content);
@@ -258,9 +260,10 @@ export function DocContent({
 
   return (
     <>
-      <div className="flex gap-8 lg:gap-12 justify-center max-w-5xl mx-auto w-full">
+      <div className="flex gap-8 lg:gap-12 w-full">
         <TableOfContents items={tocItems} />
         <div className="flex-1 min-w-0 max-w-3xl">
+          {header}
           <article className="prose min-w-0">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}

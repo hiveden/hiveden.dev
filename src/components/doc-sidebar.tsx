@@ -192,13 +192,6 @@ export function DocSidebar({ title, description }: DocSidebarProps) {
         </div>
       </div>
 
-      {/* Push content when open */}
-      <style>{`
-        main {
-          margin-right: ${open ? "320px" : "0"};
-          transition: margin-right 0.3s ease-in-out;
-        }
-      `}</style>
     </>
   );
 }

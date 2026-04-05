@@ -16,15 +16,19 @@ export default function LocalModelDeploymentPage() {
   return (
     <div className="bg-grid min-h-dvh">
       <Header />
-      <main className="mx-auto max-w-6xl px-6 py-12">
-        <nav className="mb-8 text-sm text-muted font-mono max-w-5xl mx-auto w-full">
-          <Link href="/" className="hover:text-foreground transition-colors">
-            首页
-          </Link>
-          <span className="mx-2 text-subtle">/</span>
-          <span className="text-foreground">Ollama on Apple Silicon 完整部署指南</span>
-        </nav>
-        <DocContent content={content}>
+      <main className="mx-auto max-w-5xl px-6 py-12">
+        <DocContent
+          content={content}
+          header={
+            <nav className="mb-8 text-sm text-muted font-mono">
+              <Link href="/" className="hover:text-foreground transition-colors">
+                首页
+              </Link>
+              <span className="mx-2 text-subtle">/</span>
+              <span className="text-foreground">Ollama on Apple Silicon 完整部署指南</span>
+            </nav>
+          }
+        >
           <Comments />
         </DocContent>
       </main>
