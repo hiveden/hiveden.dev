@@ -245,30 +245,39 @@ function extractDescription(markdown: string): string {
   return "";
 }
 
-export function DocContent({ content }: { content: string }) {
+export function DocContent({
+  content,
+  children,
+}: {
+  content: string;
+  children?: React.ReactNode;
+}) {
   const tocItems = extractToc(content);
   const title = extractTitle(content);
   const description = extractDescription(content);
 
   return (
     <>
-      <div className="flex gap-8">
+      <div className="flex gap-8 lg:gap-12 justify-center max-w-5xl mx-auto w-full">
         <TableOfContents items={tocItems} />
-        <article className="prose min-w-0 flex-1">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={{
-              h2: ({ children }) => (
-                <HeadingRenderer level={2}>{children}</HeadingRenderer>
-              ),
-              h3: ({ children }) => (
-                <HeadingRenderer level={3}>{children}</HeadingRenderer>
-              ),
-            }}
-          >
-            {content}
-          </ReactMarkdown>
-        </article>
+        <div className="flex-1 min-w-0 max-w-3xl">
+          <article className="prose min-w-0">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h2: ({ children }) => (
+                  <HeadingRenderer level={2}>{children}</HeadingRenderer>
+                ),
+                h3: ({ children }) => (
+                  <HeadingRenderer level={3}>{children}</HeadingRenderer>
+                ),
+              }}
+            >
+              {content}
+            </ReactMarkdown>
+          </article>
+          {children}
+        </div>
       </div>
       <DocSidebar title={title} description={description} />
     </>
