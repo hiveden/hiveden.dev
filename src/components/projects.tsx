@@ -26,6 +26,16 @@ const PROJECTS: Project[] = [
     date: "2026.04",
   },
   {
+    name: "mac-local-llm-benchmark",
+    repo: "hiveden/mac-local-llm-benchmark",
+    tagline: "Mac 本地 LLM 推理平台基准测试",
+    description:
+      "Apple Silicon 上 Ollama vs oMLX vs mlx-lm 的横向对比。统一 harness + provider 适配器架构，跨期基线追踪，配套「本地大模型部署」系列的数据底座。",
+    github: "https://github.com/hiveden/mac-local-llm-benchmark",
+    tech: ["Ollama", "oMLX", "mlx-lm", "Python"],
+    date: "2026.04",
+  },
+  {
     name: "tts-agent-harness",
     repo: "hiveden/tts-agent-harness",
     tagline: "三段式 TTS 自动化流水线",
