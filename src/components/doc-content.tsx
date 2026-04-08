@@ -2,8 +2,26 @@
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import React, { useEffect, useState } from "react";
-import { DocSidebar } from "./doc-sidebar";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Giscus from "@giscus/react";
+import React, { useEffect, useRef, useState } from "react";
+
+interface DocItem {
+  title: string;
+  href: string;
+}
+
+const DOCS: DocItem[] = [
+  {
+    title: "curve-fit：和 AI 协作一年之后，我才知道我每天在防御什么",
+    href: "/docs/curve-fit",
+  },
+  {
+    title: "Ollama on Apple Silicon 完整部署指南",
+    href: "/docs/local-model-deployment",
+  },
+];
 
 interface TocItem {
   id: string;
@@ -155,7 +173,7 @@ function TocList({
             <a
               href={`#${item.id}`}
               onClick={onNavigate}
-              className={`block py-1 w-full whitespace-nowrap transition-colors ${
+              className={`block py-1 pr-2 w-full break-words leading-snug transition-colors ${
                 item.level === 3 ? "pl-6" : "pl-3"
               } ${
                 activeId === item.id
@@ -172,7 +190,7 @@ function TocList({
         <a
           href="#comments"
           onClick={onNavigate}
-          className={`block py-1 pl-3 whitespace-nowrap transition-colors ${
+          className={`block py-1 pl-3 pr-2 leading-snug transition-colors ${
             activeId === "comments"
               ? "text-accent border-l-2 border-accent -ml-px"
               : "text-muted hover:text-foreground"
@@ -190,41 +208,60 @@ type TocState = ReturnType<typeof useTocState>;
 function MobileToc({ toc }: { toc: TocState }) {
   const [open, setOpen] = useState(false);
 
+  // Lock body scroll while drawer is open
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
   return (
     <>
       <button
         onClick={() => setOpen(true)}
-        className={`fixed left-4 top-24 z-[60] lg:hidden w-8 h-8 flex items-center justify-center rounded-md bg-surface border border-border text-muted hover:text-accent transition-all duration-300 ${
-          open ? "opacity-0 pointer-events-none" : "opacity-100"
+        className={`fixed left-4 top-20 z-[60] lg:hidden w-9 h-9 flex items-center justify-center rounded-md bg-surface/90 backdrop-blur-sm border border-border text-muted hover:text-accent shadow-sm transition-all duration-300 ${
+          open ? "opacity-0 pointer-events-none -translate-x-2" : "opacity-100 translate-x-0"
         }`}
         title="展开目录"
       >
         <TocIcon />
       </button>
 
-      {open && (
-        <div className="fixed inset-0 z-[70] lg:hidden" onClick={() => setOpen(false)}>
-          <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" />
-          <nav
-            className="absolute left-0 top-[57px] h-[calc(100%-57px)] w-72 bg-background border-r border-border overflow-y-auto px-5 py-6"
-            onClick={(e) => e.stopPropagation()}
+      {/* Backdrop — always rendered for fade animation */}
+      <div
+        onClick={() => setOpen(false)}
+        className={`fixed inset-0 z-[70] lg:hidden bg-background/70 backdrop-blur-sm transition-opacity duration-300 ${
+          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
+
+      {/* Drawer — always rendered for slide animation */}
+      <nav
+        onClick={(e) => e.stopPropagation()}
+        className={`fixed left-0 top-[57px] z-[80] lg:hidden h-[calc(100dvh-57px)] w-[85%] max-w-[320px] bg-background border-r border-border shadow-xl flex flex-col transition-transform duration-300 ease-out ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-border/60">
+          <p className="text-xs font-semibold text-subtle uppercase tracking-wider">目录</p>
+          <button
+            onClick={() => setOpen(false)}
+            className="w-8 h-8 flex items-center justify-center rounded-md text-subtle hover:text-foreground hover:bg-surface transition-colors -mr-1.5"
+            aria-label="关闭目录"
           >
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-xs font-semibold text-subtle uppercase tracking-wider">目录</p>
-              <button
-                onClick={() => setOpen(false)}
-                className="w-7 h-7 flex items-center justify-center rounded-md border border-border text-subtle hover:text-foreground hover:bg-surface transition-colors"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            </div>
-            <TocList {...toc} onNavigate={() => setOpen(false)} />
-          </nav>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
-      )}
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+          <TocList {...toc} onNavigate={() => setOpen(false)} />
+        </div>
+      </nav>
     </>
   );
 }
@@ -294,10 +331,8 @@ function extractTitle(markdown: string): string {
 }
 
 function extractDescription(markdown: string): string {
-  // Extract first blockquote content as description
   const match = markdown.match(/^>\s+\*\*(.+?)\*\*[：:]\s*(.+)$/m);
   if (match) return `${match[1]}: ${match[2]}`;
-  // Fallback: first paragraph after title
   const lines = markdown.split("\n");
   for (const line of lines) {
     const trimmed = line.trim();
@@ -308,14 +343,309 @@ function extractDescription(markdown: string): string {
   return "";
 }
 
+function GiscusSkeleton() {
+  return (
+    <div className="animate-pulse space-y-4">
+      <div className="rounded-lg border border-border bg-surface/30 p-4 space-y-3">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-border" />
+          <div className="h-3 w-24 rounded bg-border" />
+        </div>
+        <div className="h-20 rounded bg-border/50" />
+        <div className="flex justify-end">
+          <div className="h-7 w-16 rounded bg-border" />
+        </div>
+      </div>
+      <div className="rounded-lg border border-border bg-surface/30 p-4 space-y-3">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-full bg-border" />
+          <div className="h-3 w-20 rounded bg-border" />
+          <div className="h-3 w-12 rounded bg-border" />
+        </div>
+        <div className="space-y-2">
+          <div className="h-3 w-full rounded bg-border/50" />
+          <div className="h-3 w-3/4 rounded bg-border/50" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CommentIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
+/* Detect giscus iframe load; returns a ref to attach to the Giscus wrapper */
+function useGiscusLoaded() {
+  const [loaded, setLoaded] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const timeout = setTimeout(() => setLoaded(true), 5000);
+
+    const observer = new MutationObserver(() => {
+      const iframe = container.querySelector("iframe.giscus-frame");
+      if (iframe) {
+        iframe.addEventListener(
+          "load",
+          () => {
+            setLoaded(true);
+            clearTimeout(timeout);
+          },
+          { once: true }
+        );
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(container, { childList: true, subtree: true });
+    return () => {
+      clearTimeout(timeout);
+      observer.disconnect();
+    };
+  }, []);
+
+  return { loaded, containerRef };
+}
+
+/* Shared panel body: article info + Giscus + docs nav. Used by both desktop rail and mobile drawer. */
+function CommentsPanelContent({
+  title,
+  description,
+  containerRef,
+  giscusLoaded,
+  onNavigate,
+}: {
+  title: string;
+  description: string;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  giscusLoaded: boolean;
+  onNavigate?: () => void;
+}) {
+  const pathname = usePathname();
+  return (
+    <>
+      {/* Section 1: Article info */}
+      <div className="pb-5 mb-5 border-b border-border">
+        <h3 className="text-sm font-semibold text-foreground leading-snug mb-2">
+          {title}
+        </h3>
+        <p className="text-xs text-muted leading-relaxed">{description}</p>
+      </div>
+
+      {/* Section 2: Giscus */}
+      <div ref={containerRef}>
+        {!giscusLoaded && <GiscusSkeleton />}
+        <div className={giscusLoaded ? "" : "h-0 overflow-hidden"}>
+          <Giscus
+            repo="hiveden/hiveden.dev"
+            repoId="R_kgDOR3goHQ"
+            category="Announcements"
+            categoryId="DIC_kwDOR3goHc4C6Fip"
+            mapping="pathname"
+            reactionsEnabled="1"
+            emitMetadata="0"
+            inputPosition="bottom"
+            theme="dark"
+            lang="zh-CN"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      {/* Section 3: Docs navigation */}
+      <div className="border-t border-border mt-8 pt-6">
+        <p className="text-xs font-semibold text-subtle uppercase tracking-wider mb-3">
+          全部文档
+        </p>
+        <ul className="space-y-1 text-sm">
+          {DOCS.map((doc) => (
+            <li key={doc.href}>
+              <Link
+                href={doc.href}
+                onClick={onNavigate}
+                className={`block px-3 py-1.5 rounded-md transition-colors ${
+                  pathname === doc.href
+                    ? "text-accent bg-accent/10"
+                    : "text-muted hover:text-foreground hover:bg-surface"
+                }`}
+              >
+                {doc.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+}
+
+/* Mirror of CollapseIcon but pointing right by default (so rotate-180 gives left) */
+function CollapseIconRight({ collapsed }: { collapsed: boolean }) {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      className={`transition-transform duration-300 ${collapsed ? "rotate-180" : ""}`}
+    >
+      <polyline points="13 17 18 12 13 7" />
+      <polyline points="6 17 11 12 6 7" />
+    </svg>
+  );
+}
+
+function CommentsRail({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
+  const [collapsed, setCollapsed] = useState(false);
+  const { loaded: giscusLoaded, containerRef } = useGiscusLoaded();
+
+  return (
+    <nav
+      className={`hidden lg:block shrink-0 transition-all duration-300 ease-in-out ${
+        collapsed ? "w-8" : "w-56"
+      }`}
+    >
+      <div className="sticky top-24 max-h-[calc(100dvh-8rem)] overflow-y-auto overflow-x-hidden">
+        {/* Header — mirror TOC */}
+        <div className={`flex ${collapsed ? "justify-center" : "justify-between"} items-center mb-3`}>
+          {!collapsed && (
+            <p className="text-xs font-semibold text-subtle uppercase tracking-wider">
+              评论
+            </p>
+          )}
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="w-8 h-8 flex items-center justify-center rounded-md text-subtle hover:text-foreground hover:bg-surface transition-colors"
+            title={collapsed ? "展开评论" : "收起评论"}
+          >
+            <CollapseIconRight collapsed={collapsed} />
+          </button>
+        </div>
+
+        {/* Content — fade out when collapsed */}
+        <div
+          className={`transition-opacity duration-300 ${
+            collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
+          <CommentsPanelContent
+            title={title}
+            description={description}
+            containerRef={containerRef}
+            giscusLoaded={giscusLoaded}
+          />
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+/* Mobile drawer — mirrors MobileToc but on the right side */
+function MobileComments({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const { loaded: giscusLoaded, containerRef } = useGiscusLoaded();
+
+  // Lock body scroll while drawer is open
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  return (
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className={`fixed right-4 top-20 z-[60] lg:hidden w-9 h-9 flex items-center justify-center rounded-md bg-surface/90 backdrop-blur-sm border border-border text-muted hover:text-accent shadow-sm transition-all duration-300 ${
+          open ? "opacity-0 pointer-events-none translate-x-2" : "opacity-100 translate-x-0"
+        }`}
+        title="展开评论"
+      >
+        <CommentIcon />
+      </button>
+
+      {/* Backdrop */}
+      <div
+        onClick={() => setOpen(false)}
+        className={`fixed inset-0 z-[70] lg:hidden bg-background/70 backdrop-blur-sm transition-opacity duration-300 ${
+          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
+
+      {/* Drawer — always rendered for slide animation, from the right */}
+      <nav
+        onClick={(e) => e.stopPropagation()}
+        className={`fixed right-0 top-[57px] z-[80] lg:hidden h-[calc(100dvh-57px)] w-[85%] max-w-[320px] bg-background border-l border-border shadow-xl flex flex-col transition-transform duration-300 ease-out ${
+          open ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-border/60">
+          <p className="text-xs font-semibold text-subtle uppercase tracking-wider">
+            评论
+          </p>
+          <button
+            onClick={() => setOpen(false)}
+            className="w-8 h-8 flex items-center justify-center rounded-md text-subtle hover:text-foreground hover:bg-surface transition-colors -mr-1.5"
+            aria-label="关闭评论"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+          <CommentsPanelContent
+            title={title}
+            description={description}
+            containerRef={containerRef}
+            giscusLoaded={giscusLoaded}
+            onNavigate={() => setOpen(false)}
+          />
+        </div>
+      </nav>
+    </>
+  );
+}
+
 export function DocContent({
   content,
-  header,
-  children,
+  breadcrumb,
 }: {
   content: string;
-  header?: React.ReactNode;
-  children?: React.ReactNode;
+  breadcrumb?: string;
 }) {
   const tocItems = extractToc(content);
   const title = extractTitle(content);
@@ -325,10 +655,19 @@ export function DocContent({
   return (
     <>
       <MobileToc toc={toc} />
+      <MobileComments title={title} description={description} />
       <div className="flex gap-8 lg:gap-12 w-full">
         <TableOfContents toc={toc} />
         <div className="flex-1 min-w-0">
-          {header}
+          {breadcrumb ? (
+            <nav className="mb-8 text-sm text-muted font-mono">
+              <Link href="/" className="hover:text-foreground transition-colors">
+                首页
+              </Link>
+              <span className="mx-2 text-subtle">/</span>
+              <span className="text-foreground">{breadcrumb}</span>
+            </nav>
+          ) : null}
           <article className="prose min-w-0">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
@@ -344,10 +683,9 @@ export function DocContent({
               {content}
             </ReactMarkdown>
           </article>
-          {children}
         </div>
+        <CommentsRail title={title} description={description} />
       </div>
-      <DocSidebar title={title} description={description} />
     </>
   );
 }

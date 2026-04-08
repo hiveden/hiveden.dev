@@ -3,22 +3,22 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-import content from "@/content/docs/local-model-deployment.md";
+import content from "@/content/docs/curve-fit.md";
 
 export const metadata: Metadata = {
-  title: "Ollama on Apple Silicon 完整部署指南 | hiveden.dev",
+  title: "curve-fit：和 AI 协作一年之后，我才知道我每天在防御什么 | hiveden.dev",
   description:
-    "Ollama 在 Apple Silicon Mac 上的完整部署指南：安装、性能优化、模型选型、Docker 集成、踩坑记录。",
+    "一堂 ML 入门课意外命名了与 AI 长期协作的双向拟合现象——从决策树调参到认知层面的 curve-fit。",
 };
 
-export default function LocalModelDeploymentPage() {
+export default function CurveFitPage() {
   return (
     <div className="bg-grid min-h-dvh">
       <Header />
       <main className="mx-auto max-w-7xl px-6 py-12">
         <DocContent
           content={content}
-          breadcrumb="Ollama on Apple Silicon 完整部署指南"
+          breadcrumb="curve-fit：和 AI 协作一年之后，我才知道我每天在防御什么"
         />
       </main>
       <Footer />
