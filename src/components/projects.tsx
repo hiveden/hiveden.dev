@@ -16,6 +16,16 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
+    name: "curve-fit-script",
+    type: "article",
+    tagline: "一篇关于 curve-fit 的视频稿是如何被改出来、发出去的",
+    description:
+      "一段两天对话的结构化整理：围绕一篇视频稿件的迭代、Claude 的中招、发布策略选择，以及对“普通人在 AI 时代”的延伸思考。",
+    docs: "/docs/curve-fit-script",
+    tech: ["写作", "Claude Code", "Meta", "认知"],
+    date: "2026.04",
+  },
+  {
     name: "curve-fit",
     type: "article",
     tagline: "curve-fit：和 AI 协作一年之后，我才知道我每天在防御什么",
