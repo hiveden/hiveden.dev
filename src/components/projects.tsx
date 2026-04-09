@@ -47,6 +47,16 @@ function DateBadge({ project }: { project: Project }) {
 
 const PROJECTS: Project[] = [
   {
+    name: "reject-self-fit",
+    type: "article",
+    tagline: "拒绝自拟合 — 现阶段试行",
+    description:
+      "把上下文沉淀到自己的个人网站，不沉淀到 AI 的记忆里。一次反主流的个人实验记录：AI 从长期伙伴降级为一次性推理引擎。",
+    docs: "/docs/reject-self-fit",
+    tech: ["Agent", "Context", "Meta", "认知"],
+    publishedAt: "2026-04-09",
+  },
+  {
     name: "learning-methodology",
     type: "article",
     tagline: "一份学东西的 checklist",
