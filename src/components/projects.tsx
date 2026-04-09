@@ -6,7 +6,8 @@ type Project = {
   repo?: string;
   tagline: string;
   description: string;
-  date: string;
+  publishedAt: string; // ISO date, e.g. "2026-04-09"
+  updatedAt?: string; // ISO date, optional; omit if same as publishedAt
   tech: string[];
   github?: string;
   docs?: string;
@@ -14,7 +15,47 @@ type Project = {
   download?: string;
 };
 
+const RECENT_UPDATE_WINDOW_DAYS = 7;
+
+function formatDate(iso: string): string {
+  // "2026-04-09" -> "2026.04.09"
+  return iso.slice(0, 10).replaceAll("-", ".");
+}
+
+function isRecentlyUpdated(project: Project): boolean {
+  if (!project.updatedAt || project.updatedAt === project.publishedAt) return false;
+  const updated = new Date(project.updatedAt).getTime();
+  if (Number.isNaN(updated)) return false;
+  const ageDays = (Date.now() - updated) / 86_400_000;
+  return ageDays >= 0 && ageDays <= RECENT_UPDATE_WINDOW_DAYS;
+}
+
+function DateBadge({ project }: { project: Project }) {
+  const recent = isRecentlyUpdated(project);
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <span>{formatDate(project.publishedAt)}</span>
+      {recent && (
+        <span
+          title={`更新于 ${formatDate(project.updatedAt!)}`}
+          className="inline-block w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_6px_rgba(168,85,247,0.8)]"
+        />
+      )}
+    </span>
+  );
+}
+
 const PROJECTS: Project[] = [
+  {
+    name: "learning-methodology",
+    type: "article",
+    tagline: "一份学东西的 checklist",
+    description:
+      "几条关于学东西的规矩：哪些靠读就懂、哪些只能靠做；闭环要跑到发布和反馈；以及怎么不被「懂了」的感觉糊弄过去。",
+    docs: "/docs/learning-methodology",
+    tech: ["学习", "Meta", "认知"],
+    publishedAt: "2026-04-09",
+  },
   {
     name: "curve-fit-script",
     type: "article",
@@ -23,7 +64,7 @@ const PROJECTS: Project[] = [
       "一段两天对话的结构化整理：围绕一篇视频稿件的迭代、Claude 的中招、发布策略选择，以及对“普通人在 AI 时代”的延伸思考。",
     docs: "/docs/curve-fit-script",
     tech: ["写作", "Claude Code", "Meta", "认知"],
-    date: "2026.04",
+    publishedAt: "2026-04-09",
   },
   {
     name: "curve-fit",
@@ -33,7 +74,7 @@ const PROJECTS: Project[] = [
       "一堂 ML 入门课意外命名了与 AI 长期协作的双向拟合现象——从决策树调参讲到认知层面的 curve-fit，以及为什么有一个词这件事本身就是解药。",
     docs: "/docs/curve-fit",
     tech: ["ML 入门", "Claude Code", "Meta", "认知"],
-    date: "2026.04",
+    publishedAt: "2026-04-08",
   },
   {
     name: "ai-engineer-roadmap",
@@ -44,7 +85,7 @@ const PROJECTS: Project[] = [
       "面向全栈工程师转型 AI Engineer 的系统化路线：基础能力、Agent 架构、多 Agent 编排、工程化实践与开源项目索引。",
     github: "https://github.com/hiveden/ai-engineer-roadmap",
     tech: ["Roadmap", "Agent", "LLM", "Engineering"],
-    date: "2026.04",
+    publishedAt: "2026-04-08",
   },
   {
     name: "mac-local-llm-benchmark",
@@ -55,7 +96,7 @@ const PROJECTS: Project[] = [
       "Apple Silicon 上 Ollama vs oMLX vs mlx-lm 的横向对比。统一 harness + provider 适配器架构，跨期基线追踪。",
     github: "https://github.com/hiveden/mac-local-llm-benchmark",
     tech: ["Ollama", "oMLX", "mlx-lm", "Python"],
-    date: "2026.04",
+    publishedAt: "2026-04-06",
   },
   {
     name: "tts-agent-harness",
@@ -66,7 +107,7 @@ const PROJECTS: Project[] = [
       "Fish TTS + WhisperX + Claude 组成的多 Agent 生产线。87% chunk 自动通过质量校验，未通过的进入修复循环，3 轮内收敛。",
     github: "https://github.com/hiveden/tts-agent-harness",
     tech: ["Node.js", "Fish TTS", "WhisperX", "Claude"],
-    date: "2026.03",
+    publishedAt: "2026-04-02",
   },
   {
     name: "local-model-deployment",
@@ -77,7 +118,7 @@ const PROJECTS: Project[] = [
     docs: "/docs/local-model-deployment",
     download: "/downloads/local-model-deployment.md",
     tech: ["Ollama", "Apple Silicon", "qwen3", "Docker"],
-    date: "2026.04",
+    publishedAt: "2026-04-03",
   },
 ];
 
@@ -99,44 +140,38 @@ const CARD_BASE =
 
 function ArticleCard({ project }: { project: Project }) {
   return (
-    <a
-      href={project.docs}
-      className={`${CARD_BASE} p-6 lg:p-8`}
-    >
+    <a href={project.docs} className={`${CARD_BASE} p-5 lg:p-6`}>
       {/* Accent strip on the left */}
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-accent via-accent/40 to-transparent" />
+      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-accent via-accent/40 to-transparent" />
 
       {/* Meta */}
       <div className="mb-3 flex items-center gap-2 text-[10px] text-subtle font-mono uppercase tracking-[0.15em]">
         <span className="text-accent">¶</span>
         <span>Article</span>
         <span className="text-border">·</span>
-        <span>{project.date}</span>
+        <DateBadge project={project} />
       </div>
 
       {/* Title */}
-      <h3 className="font-semibold text-xl lg:text-2xl text-foreground group-hover:text-accent transition-colors leading-snug mb-3">
+      <h3 className="font-semibold text-base lg:text-lg text-foreground group-hover:text-accent transition-colors leading-snug mb-2 line-clamp-2">
         {project.tagline}
       </h3>
 
-      {/* Description — full, not clamped */}
-      <p className="text-sm text-muted leading-relaxed mb-5 max-w-2xl">
+      {/* Description — clamped */}
+      <p className="text-xs text-muted leading-relaxed line-clamp-2 mb-4">
         {project.description}
       </p>
 
-      {/* Tech tags + CTA */}
-      <div className="flex flex-wrap items-center gap-2">
-        {project.tech.map((t) => (
+      {/* Tech tags */}
+      <div className="flex flex-wrap gap-1.5">
+        {project.tech.slice(0, 4).map((t) => (
           <span
             key={t}
-            className="rounded-md bg-accent/5 border border-accent/15 px-2 py-0.5 text-[10px] text-accent/80 font-mono"
+            className="rounded bg-border/40 px-1.5 py-0.5 text-[10px] text-subtle font-mono"
           >
             {t}
           </span>
         ))}
-        <span className="ml-auto text-xs text-accent font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-          阅读全文 →
-        </span>
       </div>
     </a>
   );
@@ -163,7 +198,7 @@ function RepoCard({
           <span className="text-accent">❯</span>
           <span>Repo</span>
           <span className="text-border">·</span>
-          <span>{project.date}</span>
+          <DateBadge project={project} />
         </span>
         {stars != null && (
           <span className="flex items-center gap-1 text-subtle">
@@ -210,7 +245,7 @@ function DocCard({ project }: { project: Project }) {
         <span className="text-accent">§</span>
         <span>Guide</span>
         <span className="text-border">·</span>
-        <span>{project.date}</span>
+        <DateBadge project={project} />
         {project.download && (
           <>
             <span className="text-border">·</span>
@@ -263,9 +298,12 @@ export async function Projects() {
     if (results[i] != null) starsMap.set(p.name, results[i]!);
   });
 
-  const articles = PROJECTS.filter((p) => p.type === "article");
-  const repos = PROJECTS.filter((p) => p.type === "repo");
-  const docs = PROJECTS.filter((p) => p.type === "doc");
+  const sorted = [...PROJECTS].sort((a, b) =>
+    b.publishedAt.localeCompare(a.publishedAt)
+  );
+  const articles = sorted.filter((p) => p.type === "article");
+  const repos = sorted.filter((p) => p.type === "repo");
+  const docs = sorted.filter((p) => p.type === "doc");
 
   return (
     <section className="mx-auto max-w-5xl px-6 pb-24">
@@ -276,7 +314,7 @@ export async function Projects() {
       {articles.length > 0 && (
         <div className="mb-14">
           <SectionHeader label="文章 · 思考" count={articles.length} />
-          <div className="grid grid-cols-1 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {articles.map((p) => (
               <ArticleCard key={p.name} project={p} />
             ))}
