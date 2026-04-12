@@ -47,6 +47,16 @@ function DateBadge({ project }: { project: Project }) {
 
 const PROJECTS: Project[] = [
   {
+    name: "ai-fit-fragile-mind",
+    type: "article",
+    tagline: "当安慰没有尽头——AI 拟合与心智脆弱状态",
+    description:
+      "AI 拟合在心智脆弱状态下的真正危险：不是说错话，而是让"停留在脆弱状态"变得可持续。一期视频的思考题，不给答案。",
+    docs: "/docs/ai-fit-fragile-mind",
+    tech: ["AI 安全", "Meta", "认知"],
+    publishedAt: "2026-04-12",
+  },
+  {
     name: "reject-self-fit",
     type: "article",
     tagline: "拒绝自拟合 — 现阶段试行",
