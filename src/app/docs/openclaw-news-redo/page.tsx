@@ -7,9 +7,9 @@ import content from "@/content/docs/我用OpenClaw做了一个资讯推送然后
 
 export const metadata: Metadata = {
   title:
-    "我用 OpenClaw 做了一个资讯推送,然后决定再做一遍 | hiveden.dev",
+    "我用 OpenClaw 做了一个资讯推送，然后决定再做一遍 | hiveden.dev",
   description:
-    "一篇关于 Agent 产品设计的思考:LLM 到底该在什么节点、以什么方式、多深地介入一个任务?",
+    "一篇关于 Agent 产品设计的思考：LLM 到底该在什么节点、以什么方式、多深地介入一个任务？",
 };
 
 export default function OpenclawNewsRedoPage() {
