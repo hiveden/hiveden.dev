@@ -57,6 +57,36 @@ const PROJECTS: Project[] = [
     publishedAt: "2026-04-15",
   },
   {
+    name: "practice-01-claude-code-methodology",
+    type: "article",
+    tagline: "TTS Harness 工程实践（一）：Claude Code 编程方法论",
+    description:
+      "16 天 239 commits 的实践总结：人机协作的边界、CLAUDE.md 演进、Wave/Gate 并行开发、指令粒度与效率、确定性任务 vs LLM 任务的边界。",
+    docs: "/docs/practice-01-claude-code-methodology",
+    tech: ["Claude Code", "Agent", "工程实践"],
+    publishedAt: "2026-04-15",
+  },
+  {
+    name: "practice-02-engineering-principles",
+    type: "article",
+    tagline: "TTS Harness 工程实践（二）：编程工程化思想",
+    description:
+      "确定性优先原则、类型安全贯穿全链路、分层架构演进、Dev Mode 双轨设计、Pipeline 拓扑、测试分层、错误处理架构。",
+    docs: "/docs/practice-02-engineering-principles",
+    tech: ["TypeScript", "FastAPI", "工程实践"],
+    publishedAt: "2026-04-15",
+  },
+  {
+    name: "practice-03-requirements-design",
+    type: "article",
+    tagline: "TTS Harness 工程实践（三）：需求设计",
+    description:
+      "从痛点到产品形态、做减法的艺术、面向下游的导出契约、渐进式 MVP、tts_text 分离、API Key 安全设计。",
+    docs: "/docs/practice-03-requirements-design",
+    tech: ["产品设计", "MVP", "工程实践"],
+    publishedAt: "2026-04-15",
+  },
+  {
     name: "ai-fit-fragile-mind",
     type: "article",
     tagline: "当安慰没有尽头——AI 拟合与心智脆弱状态",
