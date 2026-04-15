@@ -47,6 +47,16 @@ function DateBadge({ project }: { project: Project }) {
 
 const PROJECTS: Project[] = [
   {
+    name: "tts-reflection",
+    type: "article",
+    tagline: "从 TTS 工具上线谈起：几个被踩出来的认知",
+    description:
+      "围绕一个 TTS 流水线工具的复盘：code is cheap 的真实边界、单机脚本到服务化的断层、以及为什么\u201C写个 AI 脚本就能解决\u201D往往是最贵的幻觉。",
+    docs: "/docs/tts-reflection",
+    tech: ["TTS", "服务化", "Agent", "认知"],
+    publishedAt: "2026-04-15",
+  },
+  {
     name: "ai-fit-fragile-mind",
     type: "article",
     tagline: "当安慰没有尽头——AI 拟合与心智脆弱状态",
