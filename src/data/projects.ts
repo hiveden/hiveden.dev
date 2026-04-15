@@ -32,6 +32,16 @@ export function isRecentlyUpdated(project: Project): boolean {
 
 export const PROJECTS: Project[] = [
   {
+    name: "openclaw-news-redo",
+    type: "article",
+    tagline: "我用 OpenClaw 做了一个资讯推送,然后决定再做一遍",
+    description:
+      "一篇关于 Agent 产品设计的思考:LLM 到底该在什么节点、以什么方式、多深地介入一个任务?",
+    docs: "/docs/openclaw-news-redo",
+    tech: ["Agent", "OpenClaw", "产品设计", "认知"],
+    publishedAt: "2026-04-15",
+  },
+  {
     name: "tts-reflection",
     type: "article",
     tagline: "从 TTS 工具上线谈起：几个被踩出来的认知",
