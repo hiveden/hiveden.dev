@@ -8,14 +8,22 @@ export function Header() {
           <span className="text-accent font-mono font-bold text-base lg:text-lg">{">_"}</span>
           <span className="font-semibold text-sm lg:text-base">hiveden.dev</span>
         </Link>
-        <a
-          href="https://github.com/hiveden"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-muted hover:text-foreground transition-colors"
-        >
-          GitHub
-        </a>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/articles"
+            className="text-sm text-muted hover:text-foreground transition-colors"
+          >
+            文章
+          </Link>
+          <a
+            href="https://github.com/hiveden"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-muted hover:text-foreground transition-colors"
+          >
+            GitHub
+          </a>
+        </div>
       </div>
     </header>
   );
