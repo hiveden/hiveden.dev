@@ -39,15 +39,6 @@ next-env.d.ts
 .open-next
 .dev.vars
 
-# admin (local only, not for production)
-/src/app/admin/
-/src/lib/wechat-renderer.ts
-/src/data/articles-content.ts
-/docs/admin-design.md
-/scripts/publish-juejin.js
-/scripts/publish-juejin-all.js
-/scripts/publish-csdn.js
-/scripts/publish-csdn-all.js
-/scripts/extract-chrome-cookies.js
-/.juejin-cookie
-/.csdn-cookie
+# 本地化工具专区 — 详见 .local/README.md
+# 包含：跨平台发布脚本 / 平台 cookies / 工作文件（封面、body）
+/.local/
