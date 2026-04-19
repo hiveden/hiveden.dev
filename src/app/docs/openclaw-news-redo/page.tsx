@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-import content from "@/content/docs/我用OpenClaw做了一个资讯推送然后决定再做一遍.md";
+import content from "@/content/docs/20260415-我用OpenClaw做了一个资讯推送然后决定再做一遍.md";
 
 export const metadata: Metadata = {
   title:

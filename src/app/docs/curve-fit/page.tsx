@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-import content from "@/content/docs/curve-fit.md";
+import content from "@/content/docs/20260408-curve-fit.md";
 
 export const metadata: Metadata = {
   title: "curve-fit：和 AI 协作一年之后，我才知道我每天在防御什么 | hiveden.dev",

@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-import content from "@/content/docs/learning-methodology.md";
+import content from "@/content/docs/20260409-learning-methodology.md";
 
 export const metadata: Metadata = {
   title: "一份学东西的 checklist | hiveden.dev",

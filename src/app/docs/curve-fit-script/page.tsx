@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-import content from "@/content/docs/curve-fit-script.md";
+import content from "@/content/docs/20260409-curve-fit-script.md";
 
 export const metadata: Metadata = {
   title: "一篇关于 curve-fit 的视频稿是如何被改出来、发出去的 | hiveden.dev",

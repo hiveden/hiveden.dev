@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-import content from "@/content/docs/reject-self-fit.md";
+import content from "@/content/docs/20260409-reject-self-fit.md";
 
 export const metadata: Metadata = {
   title: "拒绝自拟合 — 现阶段试行 | hiveden.dev",

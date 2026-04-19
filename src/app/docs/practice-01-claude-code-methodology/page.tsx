@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-import content from "@/content/docs/practice-01-claude-code-methodology.md";
+import content from "@/content/docs/20260415-practice-01-claude-code-methodology.md";
 
 export const metadata: Metadata = {
   title:

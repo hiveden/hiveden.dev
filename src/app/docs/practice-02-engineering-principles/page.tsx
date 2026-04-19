@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-import content from "@/content/docs/practice-02-engineering-principles.md";
+import content from "@/content/docs/20260415-practice-02-engineering-principles.md";
 
 export const metadata: Metadata = {
   title:

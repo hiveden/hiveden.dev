@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-import content from "@/content/docs/ai-fit-fragile-mind.md";
+import content from "@/content/docs/20260412-ai-fit-fragile-mind.md";
 
 export const metadata: Metadata = {
   title: "当安慰没有尽头——AI 拟合与心智脆弱状态 | hiveden.dev",

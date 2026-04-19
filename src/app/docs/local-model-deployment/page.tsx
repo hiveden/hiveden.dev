@@ -3,7 +3,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { DocContent } from "@/components/doc-content";
 
-import content from "@/content/docs/local-model-deployment.md";
+import content from "@/content/docs/20260403-local-model-deployment.md";
 
 export const metadata: Metadata = {
   title: "Ollama on Apple Silicon 完整部署指南 | hiveden.dev",
