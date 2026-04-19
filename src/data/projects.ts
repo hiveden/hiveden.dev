@@ -32,6 +32,16 @@ export function isRecentlyUpdated(project: Project): boolean {
 
 export const PROJECTS: Project[] = [
   {
+    name: "disable-auto-memory",
+    type: "article",
+    tagline: "我为什么关闭了 Claude 的 Auto Memory",
+    description:
+      "关闭 Auto Memory 不是因为它有 bug，而是它的设计假设与学习期状态不匹配：快照一旦落盘就开始过期，追加式记忆与默认遗忘的人脑机制方向相反。",
+    docs: "/docs/disable-auto-memory",
+    tech: ["Claude Code", "Memory", "Agent", "认知"],
+    publishedAt: "2026-04-19",
+  },
+  {
     name: "openclaw-news-redo",
     type: "article",
     tagline: "我用 OpenClaw 做了一个资讯推送，然后决定再做一遍",
