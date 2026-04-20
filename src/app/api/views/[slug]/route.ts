@@ -32,8 +32,15 @@ export async function POST(
     return NextResponse.json({ error: "invalid slug" }, { status: 400 });
   }
   const { env } = getCloudflareContext();
-  const current = Number((await env.VIEWS.get(key(slug))) ?? 0);
-  const next = current + 1;
-  await env.VIEWS.put(key(slug), String(next));
-  return NextResponse.json({ slug, count: next });
+  const [currentRaw, siteRaw] = await Promise.all([
+    env.VIEWS.get(key(slug)),
+    env.VIEWS.get("site:total"),
+  ]);
+  const next = Number(currentRaw ?? 0) + 1;
+  const siteNext = Number(siteRaw ?? 0) + 1;
+  await Promise.all([
+    env.VIEWS.put(key(slug), String(next)),
+    env.VIEWS.put("site:total", String(siteNext)),
+  ]);
+  return NextResponse.json({ slug, count: next, siteTotal: siteNext });
 }
