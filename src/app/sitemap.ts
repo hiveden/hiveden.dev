@@ -17,6 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${base}/docs/interview-analysis`,
+      lastModified: new Date("2026-04-20"),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${base}/docs/disable-auto-memory`,
       lastModified: new Date("2026-04-19"),
       changeFrequency: "monthly",

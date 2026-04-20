@@ -32,6 +32,16 @@ export function isRecentlyUpdated(project: Project): boolean {
 
 export const PROJECTS: Project[] = [
   {
+    name: "interview-analysis",
+    type: "article",
+    tagline: "2026-04-20 面经深度分析报告",
+    description:
+      "1884 篇面经、9666 道题目、36 家公司的结构化分析：Tier 分层必考清单、Top 公司画像、Tag 时效演进、跨公司高频真八股与备考时间分配建议。",
+    docs: "/docs/interview-analysis",
+    tech: ["AI Agent", "面经", "数据分析", "求职"],
+    publishedAt: "2026-04-20",
+  },
+  {
     name: "disable-auto-memory",
     type: "article",
     tagline: "我为什么关闭了 Claude 的 Auto Memory",
