@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Giscus from "@giscus/react";
 import React, { useEffect, useRef, useState } from "react";
+import { ViewCounter } from "@/components/view-counter";
 
 interface DocItem {
   title: string;
@@ -647,6 +648,8 @@ export function DocContent({
   content: string;
   breadcrumb?: string;
 }) {
+  const pathname = usePathname();
+  const slug = pathname?.split("/").filter(Boolean).pop() ?? "";
   const tocItems = extractToc(content);
   const title = extractTitle(content);
   const description = extractDescription(content);
@@ -660,12 +663,18 @@ export function DocContent({
         <TableOfContents toc={toc} />
         <div className="flex-1 min-w-0">
           {breadcrumb ? (
-            <nav className="mb-8 text-sm text-muted font-mono">
-              <Link href="/" className="hover:text-foreground transition-colors">
-                首页
-              </Link>
-              <span className="mx-2 text-subtle">/</span>
-              <span className="text-foreground">{breadcrumb}</span>
+            <nav className="mb-8 flex items-center justify-between gap-4 text-sm text-muted font-mono">
+              <div className="min-w-0 truncate">
+                <Link
+                  href="/"
+                  className="hover:text-foreground transition-colors"
+                >
+                  首页
+                </Link>
+                <span className="mx-2 text-subtle">/</span>
+                <span className="text-foreground">{breadcrumb}</span>
+              </div>
+              {slug && <ViewCounter slug={slug} />}
             </nav>
           ) : null}
           <article className="prose min-w-0">

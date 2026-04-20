@@ -4,6 +4,7 @@ import {
   formatDate,
   isRecentlyUpdated,
 } from "@/data/projects";
+import { ViewBadge } from "@/components/view-badge";
 
 const HOMEPAGE_ARTICLE_LIMIT = 4;
 
@@ -30,11 +31,14 @@ export function ArticleCard({ project }: { project: Project }) {
     <a href={project.docs} className={`${CARD_BASE} p-5 lg:p-6`}>
       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-accent via-accent/40 to-transparent" />
 
-      <div className="mb-3 flex items-center gap-2 text-[10px] text-subtle font-mono uppercase tracking-[0.15em]">
-        <span className="text-accent">¶</span>
-        <span>Article</span>
-        <span className="text-border">·</span>
-        <DateBadge project={project} />
+      <div className="mb-3 flex items-center justify-between gap-2 text-[10px] text-subtle font-mono uppercase tracking-[0.15em]">
+        <span className="flex items-center gap-2 min-w-0">
+          <span className="text-accent">¶</span>
+          <span>Article</span>
+          <span className="text-border">·</span>
+          <DateBadge project={project} />
+        </span>
+        <ViewBadge slug={project.name} />
       </div>
 
       <h3 className="font-semibold text-base lg:text-lg text-foreground group-hover:text-accent transition-colors leading-snug mb-2 line-clamp-2">
@@ -119,17 +123,20 @@ function RepoCard({
 function DocCard({ project }: { project: Project }) {
   return (
     <a href={project.docs} className={`${CARD_BASE} p-6`}>
-      <div className="mb-3 flex items-center gap-2 text-[10px] text-subtle font-mono uppercase tracking-[0.15em]">
-        <span className="text-accent">§</span>
-        <span>Guide</span>
-        <span className="text-border">·</span>
-        <DateBadge project={project} />
-        {project.download && (
-          <>
-            <span className="text-border">·</span>
-            <span>可下载 .md</span>
-          </>
-        )}
+      <div className="mb-3 flex items-center justify-between gap-2 text-[10px] text-subtle font-mono uppercase tracking-[0.15em]">
+        <span className="flex items-center gap-2 min-w-0">
+          <span className="text-accent">§</span>
+          <span>Guide</span>
+          <span className="text-border">·</span>
+          <DateBadge project={project} />
+          {project.download && (
+            <>
+              <span className="text-border">·</span>
+              <span>可下载 .md</span>
+            </>
+          )}
+        </span>
+        <ViewBadge slug={project.name} />
       </div>
 
       <h3 className="font-semibold text-base lg:text-lg text-foreground group-hover:text-accent transition-colors leading-snug mb-2">
