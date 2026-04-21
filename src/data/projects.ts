@@ -32,6 +32,16 @@ export function isRecentlyUpdated(project: Project): boolean {
 
 export const PROJECTS: Project[] = [
   {
+    name: "ai-jobs-202604",
+    type: "article",
+    tagline: "2026-04 AI 应用开发岗位市场总览",
+    description:
+      "限定 AI 应用开发方向（Agent / LLM 工程 / 大模型应用 / 智能体 / AI 全栈），不含算法研究 / 预训练。基于 9096 条有效岗位的结构化分析：薪资矩阵、Top 公司画像、融资阶段、需求侧画像、职业资本评分、校招信号。",
+    docs: "/docs/ai-jobs-202604",
+    tech: ["AI Agent", "AI 应用开发", "岗位市场", "求职"],
+    publishedAt: "2026-04-21",
+  },
+  {
     name: "interview-analysis",
     type: "article",
     tagline: "2026-04-20 面经深度分析报告",

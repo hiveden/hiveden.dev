@@ -17,6 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${base}/docs/ai-jobs-202604`,
+      lastModified: new Date("2026-04-21"),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${base}/docs/interview-analysis`,
       lastModified: new Date("2026-04-20"),
       changeFrequency: "monthly",
